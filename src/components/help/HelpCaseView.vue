@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="case-issuer-wrapper">
-      <router-link v-if="caseData.user" :to="{ path: imagesDomain + 'avatar/' + caseData.userId}">
+      <router-link v-if="caseData.user" :to="{ path: '/users/' + caseData.userId + '/details/'}">
         <img v-if="caseData.user" :src="imagesDomain + 'avatar/' + caseData.userId"/>
       </router-link>
     </div>

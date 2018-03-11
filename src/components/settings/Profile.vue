@@ -11,11 +11,7 @@
         <div class="form-group">
           <label class="control-label col-xs-4 col-sm-3" for="name">name:</label>
           <div class="col-xs-8 text-left">
-<<<<<<< HEAD
             <input v-if="!isReadOnly" class="form-control ok-form-control" id="name" @blur="saveSettings" placeholder="name" v-model="settings.name" name="name">
-=======
-            <input v-if="!isReadOnly" class="form-control ok-form-control" @blur="saveSettings" id="name" placeholder="name" v-model="settings.name" name="name">
->>>>>>> d1f922e45b40f2cdf30c56d8510c36e863e77125
             <label class="data" v-if="isReadOnly">{{settings.name}}</label>
           </div>
         </div>
@@ -29,22 +25,14 @@
         <div class="form-group">
           <label class="control-label col-xs-4 col-sm-3" for="mail">mail:</label>
           <div class="col-xs-8 text-left">
-<<<<<<< HEAD
             <input v-if="!isReadOnly" type="mail" class="form-control ok-form-control" id="mail" @blur="saveSettings" placeholder="e-mail" v-model="settings.mail" :readonly="isReadOnly" name="mail">
-=======
-            <input v-if="!isReadOnly" type="mail" class="form-control ok-form-control" @blur="saveSettings" id="mail" placeholder="e-mail" v-model="settings.mail" :readonly="isReadOnly" name="mail">
->>>>>>> d1f922e45b40f2cdf30c56d8510c36e863e77125
             <label class="data" v-if="isReadOnly"><a :href="'mailto:' + settings.mail">{{settings.mail}}</a></label>
           </div>
         </div>
         <div class="form-group">
           <label class="control-label col-xs-4 col-sm-3" for="phone">more details:</label>
           <div class="col-xs-8 text-left">
-<<<<<<< HEAD
             <textarea v-if="!isReadOnly" v-model="settings.description" :readonly="isReadOnly" @blur="saveSettings" class="form-control"></textarea> 
-=======
-            <textarea v-if="!isReadOnly" v-model="settings.description" @blur="saveSettings" :readonly="isReadOnly" class="form-control"></textarea> 
->>>>>>> d1f922e45b40f2cdf30c56d8510c36e863e77125
             <label class="data" v-if="isReadOnly">{{settings.description}}</label>
           </div>
         </div>
@@ -52,7 +40,6 @@
           <label class="control-label col-xs-4 col-sm-3" for="phone">gender:</label>
           <div class="col-xs-8 text-left">
             <label>
-<<<<<<< HEAD
               <i :class="{fa:true, 'fa-male': true, selected: settings.gender == 1}" @click="saveSettings" aria-hidden="true">
                 <input v-if="!isReadOnly" class="hidden" type="radio" name="gender"  value="1" :disabled="isReadOnly" v-model="settings.gender">
               </i>
@@ -65,20 +52,6 @@
             <label>
               <i :class="{fa:true, 'fa-question-circle-o': true, selected: settings.gender == 3}" @click="saveSettings" aria-hidden="true">
                 <input v-if="!isReadOnly" class="hidden" type="radio" name="gender" value="3" :disabled="isReadOnly" v-model="settings.gender">
-=======
-              <i :class="{fa:true, 'fa-male': true, selected: settings.gender == 1}"aria-hidden="true">
-                <input v-if="!isReadOnly" class="hidden" type="radio" name="gender" @click="saveSettings" value="1" :disabled="isReadOnly" v-model="settings.gender">
-              </i>
-            </label>
-            <label>
-              <i :class="{fa:true, 'fa-female': true, selected: settings.gender == 2}" aria-hidden="true">
-                <input v-if="!isReadOnly" class="hidden" type="radio" name="gender" @click="saveSettings" value="2" :disabled="isReadOnly" v-model="settings.gender">
-              </i>
-            </label>
-            <label>
-              <i :class="{fa:true, 'fa-question-circle-o': true, selected: settings.gender == 3}"aria-hidden="true">
-                <input v-if="!isReadOnly" class="hidden" type="radio" name="gender" @click="saveSettings" value="3" :disabled="isReadOnly" v-model="settings.gender">
->>>>>>> d1f922e45b40f2cdf30c56d8510c36e863e77125
               </i>
             </label>
           </div>
@@ -86,11 +59,7 @@
       </form>
     </div>
     <div class="save-settings" v-if="!isReadOnly">
-<<<<<<< HEAD
       <a class="btn btn-md btn-danger" @click="logout">logout</a>
-=======
-      <a class="btn btn-sm btn-default" @click="logout">logout</a>
->>>>>>> d1f922e45b40f2cdf30c56d8510c36e863e77125
     </div>
   </div>
 </template>

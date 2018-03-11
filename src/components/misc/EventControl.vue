@@ -1,7 +1,7 @@
 <template>
-  <div id="eventControl" class="event-control" 
+  <div ref="eventControl" id="eventControl" class="event-control" 
     v-bind:style="{ top: location.top + 'px', left: location.left + 'px'  }">
-    <i ref="eventControl" class="fa fa-handshake-o"></i></div>
+    <i class="fa fa-handshake-o"></i></div>
 </template>
 
 <script>
