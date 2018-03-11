@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1">
+    <title>Ukholo - someone to trust</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source Serif Pro">
+    <link rel="icon" type="image/png" sizes="32x32" href="<%= htmlWebpackPlugin.files.publicPath %>static/img/icons/icon.png">
+    <!--[if IE]><link rel="shortcut icon" href="/static/img/icons/favicon.ico"><![endif]-->
+    <!-- Add to home screen for Android and modern mobile browsers -->
+    <link rel="manifest" href="<%= htmlWebpackPlugin.files.publicPath %>static/manifest.json">
+    <meta name="theme-color" content="#4DBA87">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqnkmjfiarAU2emFLfYI9fZWz9YXrI7Jk&libraries=places"></script>
+    <!-- Add to home screen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="timer-vue">
+    <link rel="apple-touch-icon" href="<%= htmlWebpackPlugin.files.publicPath %>static/res/icon/ios/icon.png">
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link href="<%= htmlWebpackPlugin.files.publicPath %>static/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="<%= htmlWebpackPlugin.files.publicPath %>static/lib/jquery/jquery.min.js"></script>
+    <script src="<%= htmlWebpackPlugin.files.publicPath %>static/lib/bootstrap/js/bootstrap.min.js"></script>
+    <link href="<%= htmlWebpackPlugin.files.publicPath %>static/css/app.css" rel="stylesheet"/>
+    <link href="<%= htmlWebpackPlugin.files.publicPath %>static/lib/bootstrap-select/bootstrap-select.min.css" rel="stylesheet"/>
+    <script src="<%= htmlWebpackPlugin.files.publicPath %>static/lib/bootstrap-select/bootstrap-select.min.js"></script>
+    <link href="<%= htmlWebpackPlugin.files.publicPath %>static/css/app.css" rel="stylesheet"/>
+    <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+    <link href="<%= htmlWebpackPlugin.files.publicPath %>static/lib/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <script type="text/javascript" src="cordova.js"></script>
+    <% for (var chunk of webpack.chunks) {
+        for (var file of chunk.files) {
+          if (file.match(/\.(js|css)$/)) { %>
+            <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>"><% }}} %>
+
+  </head>
+  <body>
+    <noscript>
+      This is your fallback content in case JavaScript fails to load.
+    </noscript>
+    <div id="app"></div>
+    <!-- Todo: only include in production -->
+    <%= htmlWebpackPlugin.options.serviceWorkerLoader %>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
