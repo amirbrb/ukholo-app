@@ -5,7 +5,7 @@
   "author": "Amir",
   "private": true,
   "scripts": {
-    "dev": "node build/dev-server.js --myVar=something",
+    "dev": "node build/dev-server.js",
     "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src"
   },

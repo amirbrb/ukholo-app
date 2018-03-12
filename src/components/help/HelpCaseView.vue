@@ -9,7 +9,7 @@
         </router-link>
       </div>
     </div>
-    <div class="case-issuer-wrapper">
+    <div class="case-issuer-wrapper" v-if="!isSelfEdit">
       <router-link v-if="caseData.user" :to="{ path: '/users/' + caseData.userId + '/details/'}">
         <img v-if="caseData.user" :src="imagesDomain + 'avatar/' + caseData.userId"/>
       </router-link>
@@ -19,7 +19,7 @@
         <i v-if="caseData.messages" class="fa fa-comment-o" :counter="caseData.messages.length > 10 ? '10+' : caseData.messages.length" aria-hidden="true"></i>
       </router-link>
     </div>
-    <div class="case-actions-wrapper">
+    <div class="case-actions-wrapper" v-if="!isSelfEdit">
       <a v-if="caseData.user" :href="'tel:' + caseData.user.phoneNumber">
         <i class="fa fa-phone" aria-hidden="true"></i>        
       </a>
@@ -39,7 +39,7 @@ export default {
   components: {
     StateControl
   },
-  props: [],
+  props: ['isSelfEdit'],
   data () {
     return {
       caseData: {
@@ -123,15 +123,15 @@ export default {
 
   .case-messages-wrapper{
     position: absolute;
-    top: -15px;
-    right: 80px;
+    top: -8px;
+    left: 50px;
     margin-right: 15px; 
   }
 
   .case-actions-wrapper{
     position: absolute;
-    top: -15px;
-    right: 150px;
+    top: -8px;
+    right: 100px;
   }
 
   .case-actions-wrapper a{

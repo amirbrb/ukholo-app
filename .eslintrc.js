@@ -40,6 +40,7 @@ module.exports = {
     'no-tabs':0,
     'key-spacing': 0,
     'no-mixed-spaces-and-tabs': 0,
-    'eol-last': 0
+    'eol-last': 0,
+    'comma-dangle':0
   }
 }

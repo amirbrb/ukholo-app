@@ -25,7 +25,7 @@ const routes = [
   { path: '/', component: MainView },
   { path: '/help/event', component: EventForm },
 	{ path: '/events/:id', component: HelpCaseView },
-  { path: '/events/edit/:id', component: HelpCaseView },
+  { path: '/events/edit/:id', component: HelpCaseView, props: { isSelfEdit: true } },
   { path: '/events/chat/:id', component: ChatBox },
   { path: '/image/:id', component: ImageView },
   { path: '/users/:id/details/', component: Profile, props: { isReadOnly: true } },

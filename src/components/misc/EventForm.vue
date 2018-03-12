@@ -135,7 +135,6 @@ export default {
           formData.append('description', self.help.description);  
           formData.append('lat', self.help.location.lat);
           formData.append('lng', self.help.location.lng);
-          debugger;
           for(var fileIndex = 0; fileIndex < self.help.images.length; fileIndex++){
             formData.append(self.help.images[fileIndex].image, self.help.images[fileIndex].file);  
           }

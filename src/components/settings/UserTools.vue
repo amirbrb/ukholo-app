@@ -75,6 +75,7 @@ export default {
           'selectedTools':  JSON.stringify(selectedTools)
         }
       }).done(function(response){
+        
       }).fail(function(e) {
         //TBD: handke error
       });
