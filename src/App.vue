@@ -34,6 +34,7 @@ import HeaderNavbar from './components/misc/HeaderNavbar.vue';
 import StateControl from './components/misc/StateControl.vue';
 import EventControl from './components/misc/EventControl.vue';
 import EventContextMenu from './components/misc/EventContextMenu.vue';
+import LoginType from './enums/loginType'
 
 export default {
   extends: MBBase,
@@ -47,22 +48,10 @@ export default {
     EventControl,
     EventContextMenu
   },
-  props: ['loggedInUserData'],
+  props: [],
   data () {
     return {
       isLoggedIn: false,
-      userData: {
-        preferences: {
-          sosControlLocation: {
-            right: 50,
-            bottom: 50
-          },
-          viewType: ViewType.table,
-          mapZoomLevel: 14
-        }
-      },
-      notifications: [],
-      currentLocation: null,
       isLoading: false,
       isLoginForm: true,
       isRegistrationForm: false,
@@ -70,16 +59,44 @@ export default {
       isShowingContextMenu: false
     }
   },
+  computed:{
+    getEventControlLocation(){
+      return this.userData.preferences.sosControlLocation;
+    }
+  },
   created () {
     window.ViewType = ViewType;
     var self = this;
-    if(self.$parent.loggedInUserData){
-      self.userData = self.$parent.loggedInUserData;
-      self.isLoggedIn = true;
-      self.notifications = self.$parent.notifications;
+    debugger;
+    if(navigator.geolocation){
+      var geoLocationOptions = {
+          enableHighAccuracy: true
+      };
+
+      var geoLoctionSuccess = function(position) {
+          var coords = position.coords;
+          var currentLocation = {
+            lat: coords.latitude,
+            lng: coords.longitude
+          };
+
+          self.$store.commit('SetLocation', currentLocation);
+          var usernameCookie = window.localStorage.mb_usercookie;
+          var passwordCookie = window.localStorage.mb_passcookie;
+          if(usernameCookie && passwordCookie){
+            var loginTypeEnum = window.localStorage.mb_loginType;
+          if(loginTypeEnum == LoginType.mail){
+                self.$store.dispatch('GetStartupData', {userName: usernameCookie, password: passwordCookie, currentLocation: currentLocation})
+          }
+        }
+      };
+
+      var geoLocationFailure = function(){
+        //TBD - show error and close application
+      }
+      navigator.geolocation.getCurrentPosition(geoLoctionSuccess, geoLocationFailure, geoLocationOptions);
     }
 
-    self.currentLocation = self.$parent.currentLocation;
     self.watchGeolocation();
   },
   methods: {
@@ -93,8 +110,7 @@ export default {
 
         navigator.geolocation.watchPosition(function(position){
           var coords = position.coords;
-          self.currentLocation.lat = coords.latitude;
-          self.currentLocation.lng = coords.longitude;
+          self.$store.commit('SetLocation', {lat: coords.latitude, lng: coords.longitude});
         }, function(err){
           console.log(err); //TBD - add proper logging
         }, watchOptions);
@@ -125,11 +141,6 @@ export default {
     },
     eventControlContextMenu(show){
       this.isShowingContextMenu = show;
-    }
-  },
-  computed: {
-    getEventControlLocation(){
-      return this.userData.preferences.sosControlLocation;
     }
   }
 };

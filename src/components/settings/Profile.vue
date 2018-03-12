@@ -100,21 +100,24 @@
       }
     },
     created(){
-      var self = this;
-      const url = '/users/' + self.userIdParam + '/details/';
-      
-      $.ajax({
-        method: 'GET',
-        url: url
-      }).done(function(response){
-        if(response.isSuccess){
-          self.settings = response.data;  
-        }
-      }).fail(function(e) {
-        //TBD: handke error
-      });
+      this.fetchData();
     },
     methods: {
+      fetchData(){
+        var self = this;
+        const url = '/users/' + self.userIdParam + '/details/';
+        
+        $.ajax({
+          method: 'GET',
+          url: url
+        }).done(function(response){
+          if(response.isSuccess){
+            self.settings = response.data;  
+          }
+        }).fail(function(e) {
+          //TBD: handke error
+        });
+      },
       avatarSelected() {
         var self = this;
         var imageInput = self.$refs.userAvatar;

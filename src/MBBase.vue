@@ -8,9 +8,18 @@ export default {
   	return {
 		  domain: ApplicationConfiguration.baseDomain,
       imagesDomain: ApplicationConfiguration.imagesDomain,
-      userData: this.$parent.userData,
-      currentLocation: this.$parent.currentLocation
   	}
+  },
+  computed: {
+    userData() {
+      return this.$store.state.userData;
+    },
+    notifications() {
+      return this.$store.state.notifications
+    },
+    currentLocation(){
+      return this.$store.state.currentLocation
+    },
   },
   methods:{
     userSettingsChanged (preferences, userId){
