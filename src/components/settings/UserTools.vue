@@ -75,7 +75,7 @@ export default {
           'selectedTools':  JSON.stringify(selectedTools)
         }
       }).done(function(response){
-        
+        self.$store.commit('saveUserTools', selectedTools);
       }).fail(function(e) {
         //TBD: handke error
       });

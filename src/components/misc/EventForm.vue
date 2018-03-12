@@ -61,8 +61,6 @@ export default {
   },
   data () {
     return {
-      userId: this.$parent.userData.id,
-      currentLocation: this.$parent.currentLocation,
       help: {
         title: '',
         selectedType: 'i just need some help',
@@ -94,8 +92,9 @@ export default {
         this.$refs.autocomplete,
         {types: ['geocode']}
       );
+      debugger;
       var circle = new google.maps.Circle({
-        center: self.currentLocation
+        center: self.userData.currentLocation
       });
       autocomplete.setBounds(circle.getBounds());
       setTimeout(this.locateHelpLocation, 1000);
@@ -111,8 +110,8 @@ export default {
     },
     locateHelpLocation(){
       var self = this;
-      self.help.location = self.currentLocation;
-      var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + self.currentLocation.lat + ','+ self.currentLocation.lng + '&key=AIzaSyBSqo5kFr5ENcknN23v5QUfQy-zoWnpopA'; 
+      self.help.location = self.userData.currentLocation;
+      var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + self.userData.currentLocation.lat + ','+ self.userData.currentLocation.lng + '&key=AIzaSyBSqo5kFr5ENcknN23v5QUfQy-zoWnpopA'; 
       axios.get(url).then(response => {
         if(response.data.results && response.data.results.length > 0){
           self.$refs.autocomplete.value = response.data.results[0].formatted_address;

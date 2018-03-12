@@ -8,13 +8,13 @@
             <div class="registration-form" v-bind:style="{ display: step == 1 ? null : 'none'}">
               <div class="form-group has-feedback">
                 <input name="email" v-model="userDetails.mail" type="email" 
-                  v-validate="'required|email'" :class="{'form-control': true, 'error-input': errors.has('email') }" 
+                  v-validate data-vv-rules="required|email" :class="{'form-control': true, 'error-input': errors.has('email') }" 
                   placeholder="email">
                 <span v-show="errors.has('email')" class="glyphicon glyphicon-exclamation-sign form-control-feedback"></span>
               </div>
               <div class="form-group has-feedback">
                 <input name="password" v-model="userDetails.password" 
-                  v-validate="'required'" :class="{'form-control': true, 'error-input': errors.has('password') }" type="password"
+                  v-validate data-vv-rules="required" :class="{'form-control': true, 'error-input': errors.has('password') }" type="password"
                   placeholder="password">
                 <span v-show="errors.has('password')" class="glyphicon glyphicon-exclamation-sign form-control-feedback"></span>
               </div>
@@ -25,13 +25,13 @@
             <div class="registration-form" v-bind:style="{ display: step == 2 ? null : 'none'}">
               <div class="form-group has-feedback">
                 <input name="name" v-model="userDetails.name" 
-                  v-validate="'required'" :class="{'form-control': true, 'error-input': errors.has('name') }" 
+                  v-validate data-vv-rules="required" :class="{'form-control': true, 'error-input': errors.has('name') }" 
                   placeholder="name">
                 <span v-show="errors.has('name')" class="glyphicon glyphicon-exclamation-sign form-control-feedback"></span>
               </div>
               <div class="form-group has-feedback">
                 <input name="phone" v-model="userDetails.phone" 
-                  v-validate="'required|numeric'" type="number" :class="{'form-control': true, 'error-input': errors.has('phone') }" 
+                  v-validate data-vv-rules="required|numeric" type="number" :class="{'form-control': true, 'error-input': errors.has('phone') }" 
                   placeholder="phone number">
                 <span v-show="errors.has('phone')" class="glyphicon glyphicon-exclamation-sign form-control-feedback"></span>
               </div>

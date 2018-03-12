@@ -2,7 +2,7 @@
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
       <div class="mb-navbar-header">
-        <i class="fa fa-bell-o" :counter="notifications.length > 10 ? '10+' : notifications.length" aria-hidden="true"></i>
+        <i class="fa fa-bell-o" :counter="$store.getters.notificationsCounter > 10 ? '10+' : $store.getters.notificationsCounter" aria-hidden="true"></i>
         <label>
           <router-link :to="'/'" class="mb-navbar-brand">Ukholo</router-link>
           <p> someone to trust </p>
@@ -23,7 +23,7 @@
         
       }
     },
-    props: ['notifications'],
+    props: [],
     methods:{
       toggleSettings() {
         var self = this;

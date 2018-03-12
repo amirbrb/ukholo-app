@@ -8,13 +8,13 @@
             <div class="form-signin">
               <div class="form-group has-feedback">
                 <input name="email" v-model="userDetails.mail" type="email" 
-                  v-validate="'required|email'" :class="{'form-control': true, 'error-input': errors.has('email') }" 
+                  v-validate data-vv-rules="required|email" :class="{'form-control': true, 'error-input': errors.has('email') }" 
                   placeholder="email">
                 <span v-show="errors.has('email')" class="glyphicon glyphicon-exclamation-sign form-control-feedback"></span>
               </div>
               <div class="form-group has-feedback">
                 <input name="password" v-model="userDetails.password" 
-                  v-validate="'required'" :class="{'form-control': true, 'error-input': errors.has('password') }" type="password"
+                  v-validate data-vv-rules="required" :class="{'form-control': true, 'error-input': errors.has('password') }" type="password"
                   placeholder="password">
                 <span v-show="errors.has('password')" class="glyphicon glyphicon-exclamation-sign form-control-feedback"></span>
               </div>

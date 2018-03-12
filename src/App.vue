@@ -51,7 +51,6 @@ export default {
   props: [],
   data () {
     return {
-      isLoggedIn: false,
       isLoading: false,
       isLoginForm: true,
       isRegistrationForm: false,
@@ -62,12 +61,14 @@ export default {
   computed:{
     getEventControlLocation(){
       return this.userData.preferences.sosControlLocation;
+    },
+    isLoggedIn(){
+      return this.$store.getters.isLoggedIn;
     }
   },
   created () {
     window.ViewType = ViewType;
     var self = this;
-    debugger;
     if(navigator.geolocation){
       var geoLocationOptions = {
           enableHighAccuracy: true
@@ -80,21 +81,17 @@ export default {
             lng: coords.longitude
           };
 
-          self.$store.commit('SetLocation', currentLocation);
+          self.$store.commit('setLocation', currentLocation);
           var usernameCookie = window.localStorage.mb_usercookie;
           var passwordCookie = window.localStorage.mb_passcookie;
           if(usernameCookie && passwordCookie){
             var loginTypeEnum = window.localStorage.mb_loginType;
           if(loginTypeEnum == LoginType.mail){
-                self.$store.dispatch('GetStartupData', {userName: usernameCookie, password: passwordCookie, currentLocation: currentLocation})
+              self.$store.dispatch('getLoginData', {userName: usernameCookie, password: passwordCookie, currentLocation: currentLocation})
           }
         }
       };
-
-      var geoLocationFailure = function(){
-        //TBD - show error and close application
-      }
-      navigator.geolocation.getCurrentPosition(geoLoctionSuccess, geoLocationFailure, geoLocationOptions);
+      navigator.geolocation.getCurrentPosition(geoLoctionSuccess, console.log, geoLocationOptions);
     }
 
     self.watchGeolocation();
@@ -110,7 +107,7 @@ export default {
 
         navigator.geolocation.watchPosition(function(position){
           var coords = position.coords;
-          self.$store.commit('SetLocation', {lat: coords.latitude, lng: coords.longitude});
+          self.$store.commit('setLocation', {lat: coords.latitude, lng: coords.longitude});
         }, function(err){
           console.log(err); //TBD - add proper logging
         }, watchOptions);
@@ -118,11 +115,10 @@ export default {
     },
     userAuthenticated (userData, token){
       var self = this;
-      self.userData = userData;
+      self.$store.commit('setUserData', userData);
       localStorage.mb_token = token;
       self.isLoginForm = false;
       self.isRegistrationForm = false;
-      self.isLoggedIn = true;
     },
     showRegistration (){
       var self = this;

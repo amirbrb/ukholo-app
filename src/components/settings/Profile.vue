@@ -2,7 +2,7 @@
   <div class="profile">
     <div class="avatar section container">
       <label class="file-container">
-        <img v-if="settings.avatar" ref="avatarPresent" :src="imagesDomain + settings.avatar" class="user-avatar"/>
+        <img v-if="userData.profile.avatar" ref="avatarPresent" :src="imagesDomain + userData.profile.avatar" class="user-avatar"/>
         <input ref="userAvatar" type="file" accept="image/*" capture="capture" @change="avatarSelected" :disabled="isReadOnly" />
       </label>
     </div>
@@ -11,47 +11,47 @@
         <div class="form-group">
           <label class="control-label col-xs-4 col-sm-3" for="name">name:</label>
           <div class="col-xs-8 text-left">
-            <input v-if="!isReadOnly" class="form-control ok-form-control" id="name" @blur="saveSettings" placeholder="name" v-model="settings.name" name="name">
-            <label class="data" v-if="isReadOnly">{{settings.name}}</label>
+            <input v-if="!isReadOnly" class="form-control ok-form-control" id="name" @blur="saveSettings" placeholder="name" v-model="userData.profile.name" name="name">
+            <label class="data" v-if="isReadOnly">{{userData.profile.name}}</label>
           </div>
         </div>
         <div class="form-group">
           <label class="control-label col-xs-4 col-sm-3" for="phone">phone:</label>
           <div class="col-xs-8 text-left">
-            <input v-if="!isReadOnly" type="number" class="form-control ok-form-control" @blur="saveSettings" id="phone" placeholder="phone" v-model="settings.phoneNumber" :readonly="isReadOnly" name="phone">
-            <label class="data" v-if="isReadOnly"><a :href="'tel:' + settings.phoneNumber">{{settings.phoneNumber}}</a></label>
+            <input v-if="!isReadOnly" type="number" class="form-control ok-form-control" @blur="saveSettings" id="phone" placeholder="phone" v-model="userData.profile.phoneNumber" :readonly="isReadOnly" name="phone">
+            <label class="data" v-if="isReadOnly"><a :href="'tel:' + userData.profile.phoneNumber">{{userData.profile.phoneNumber}}</a></label>
           </div>
         </div>
         <div class="form-group">
           <label class="control-label col-xs-4 col-sm-3" for="mail">mail:</label>
           <div class="col-xs-8 text-left">
-            <input v-if="!isReadOnly" type="mail" class="form-control ok-form-control" id="mail" @blur="saveSettings" placeholder="e-mail" v-model="settings.mail" :readonly="isReadOnly" name="mail">
-            <label class="data" v-if="isReadOnly"><a :href="'mailto:' + settings.mail">{{settings.mail}}</a></label>
+            <input v-if="!isReadOnly" type="mail" class="form-control ok-form-control" id="mail" @blur="saveSettings" placeholder="e-mail" v-model="userData.profile.mail" :readonly="isReadOnly" name="mail">
+            <label class="data" v-if="isReadOnly"><a :href="'mailto:' + userData.profile.mail">{{userData.profile.mail}}</a></label>
           </div>
         </div>
         <div class="form-group">
           <label class="control-label col-xs-4 col-sm-3" for="phone">more details:</label>
           <div class="col-xs-8 text-left">
-            <textarea v-if="!isReadOnly" v-model="settings.description" :readonly="isReadOnly" @blur="saveSettings" class="form-control"></textarea> 
-            <label class="data" v-if="isReadOnly">{{settings.description}}</label>
+            <textarea v-if="!isReadOnly" v-model="userData.profile.description" :readonly="isReadOnly" @blur="saveSettings" class="form-control"></textarea> 
+            <label class="data" v-if="isReadOnly">{{userData.profile.description}}</label>
           </div>
         </div>
         <div class="form-group">
           <label class="control-label col-xs-4 col-sm-3" for="phone">gender:</label>
           <div class="col-xs-8 text-left">
             <label>
-              <i :class="{fa:true, 'fa-male': true, selected: settings.gender == 1}" @click="saveSettings" aria-hidden="true">
-                <input v-if="!isReadOnly" class="hidden" type="radio" name="gender"  value="1" :disabled="isReadOnly" v-model="settings.gender">
+              <i :class="{fa:true, 'fa-male': true, selected: userData.profile.gender == 1}" @click="saveSettings" aria-hidden="true">
+                <input v-if="!isReadOnly" class="hidden" type="radio" name="gender"  value="1" :disabled="isReadOnly" v-model="userData.profile.gender">
               </i>
             </label>
             <label>
-              <i :class="{fa:true, 'fa-female': true, selected: settings.gender == 2}" @click="saveSettings" aria-hidden="true">
-                <input v-if="!isReadOnly" class="hidden" type="radio" name="gender" value="2" :disabled="isReadOnly" v-model="settings.gender">
+              <i :class="{fa:true, 'fa-female': true, selected: userData.profile.gender == 2}" @click="saveSettings" aria-hidden="true">
+                <input v-if="!isReadOnly" class="hidden" type="radio" name="gender" value="2" :disabled="isReadOnly" v-model="userData.profile.gender">
               </i>
             </label>
             <label>
-              <i :class="{fa:true, 'fa-question-circle-o': true, selected: settings.gender == 3}" @click="saveSettings" aria-hidden="true">
-                <input v-if="!isReadOnly" class="hidden" type="radio" name="gender" value="3" :disabled="isReadOnly" v-model="settings.gender">
+              <i :class="{fa:true, 'fa-question-circle-o': true, selected: userData.profile.gender == 3}" @click="saveSettings" aria-hidden="true">
+                <input v-if="!isReadOnly" class="hidden" type="radio" name="gender" value="3" :disabled="isReadOnly" v-model="userData.profile.gender">
               </i>
             </label>
           </div>
@@ -76,21 +76,6 @@
     props: ['userId', 'isReadOnly'],
     data () {
       return {
-        settings: {
-          avatar: null,
-          name: '',
-          phoneNumber: '',
-          description: '',
-          gender: 3,
-          goodAt: [],
-          notificationSettings: {
-            alertDistance: 5,
-            showMeOnMap: false,
-            onlyFriendsAlert: false
-          },
-          caseCount: 0,
-          userId: this.userIdParam
-        }, 
         uploadedAvatar: null
       }
     },
@@ -99,25 +84,7 @@
         return this.userId || this.$route.params.id;
       }
     },
-    created(){
-      this.fetchData();
-    },
     methods: {
-      fetchData(){
-        var self = this;
-        const url = '/users/' + self.userIdParam + '/details/';
-        
-        $.ajax({
-          method: 'GET',
-          url: url
-        }).done(function(response){
-          if(response.isSuccess){
-            self.settings = response.data;  
-          }
-        }).fail(function(e) {
-          //TBD: handke error
-        });
-      },
       avatarSelected() {
         var self = this;
         var imageInput = self.$refs.userAvatar;
@@ -137,7 +104,7 @@
         var self = this;
         const url = '/users/' + self.userId + '/settings/profile';
         const formData = new FormData();
-        formData.append('settings', JSON.stringify(self.settings));  
+        formData.append('settings', JSON.stringify(self.userData.profile));  
 
         if(self.uploadedAvatar){
           formData.append('avatar', self.uploadedAvatar);  
@@ -149,7 +116,9 @@
           processData: false,
           contentType: false
         }).done(function(response){
-
+          if(response.isSuccess){
+            self.$store.commit('saveUserProfile', self.userData.profile);
+          }
         }).fail(function(e) {
           //TBD: handke error
         });

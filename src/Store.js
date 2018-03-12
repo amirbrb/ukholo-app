@@ -6,14 +6,14 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    userData: {},
+    userData: null,
     currentLocation: {},
-    notifications: []
+    notifications: [],
   },
   actions: {
-  	GetStartupData: function(commit, requestData) {
+  	getLoginData: function(commit, requestData) {
   		var self = this;
-		var url = '/login/relogin';
+		  var url = '/login/relogin';
   		var data = {
     		mail: requestData.userName,
         	password: requestData.password,
@@ -24,18 +24,38 @@ export const store = new Vuex.Store({
 
       	$.post(url, data, function(response){
         	if(response.isSuccess){
-          		window.localStorage.mb_token = response.data.token;
-      			self.state.userData = response.data.userData;
-      			self.state.notifications = response.data.notifications;
+      		  window.localStorage.mb_token = response.data.token;
+		        self.commit('setLocation', response.data.userData.currentLocation);
+      			self.state.notifications = response.data.notifications || [];
         	}
       	}).fail(function(e){
         	
       	});
   	}
   },
+  getters: {
+    isLoggedIn: state => {
+      return state.userData != null;
+    },
+    notificationsCounter: state => {
+      return state.notifications.length;
+    }
+  },
   mutations: {
-  	SetLocation: function(commit, currentLocation){
+  	setLocation: function(commit, currentLocation){
   		this.state.currentLocation = currentLocation;
-  	}
+  	},
+    setUserData: function(commit, userData){
+      this.state.userData = userData;
+    },
+    saveUserProfile: function(commit, profile){
+      this.state.userData.profile = profile;
+    },
+    saveUserTools: function(commit, tools){
+      this.state.userData.tools = tools;
+    },
+    saveUserPreferences: function(commit, preferences){
+      this.state.userData.preferences = preferences;
+    }
   }
 })

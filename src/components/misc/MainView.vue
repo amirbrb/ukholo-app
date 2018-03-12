@@ -48,8 +48,6 @@ export default {
   },
   data () {
     return {
-      userData: this.$parent.userData,
-      currentLocation: this.$parent.currentLocation,
       cases: [],
       timeoutId: null,
       queryDelay: 5000

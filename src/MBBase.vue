@@ -23,12 +23,17 @@ export default {
   },
   methods:{
     userSettingsChanged (preferences, userId){
+      var self = this;
       var url = '/users/' + userId + '/preferences';
         var data = {
           preferences: JSON.stringify(preferences),
           userId: userId
         };
-        $.post(url, data);
+        $.post(url, data).done(function(result) {
+          if(result.success){
+            self.$store.commit('saveUserPreferences', preferences);
+          }
+        });
     },
     log(message){
 		  alert(message.message);

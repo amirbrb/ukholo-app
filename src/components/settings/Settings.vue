@@ -58,7 +58,7 @@
         window.localStorage.removeItem('mb_token');
         
         var self = this;
-        self.$parent.isLoggedIn = false;
+        self.$store.commit('setUserData', null);
         self.$parent.isLoginForm = true;
         self.$router.replace('/');
       }
