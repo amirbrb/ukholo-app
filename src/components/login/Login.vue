@@ -46,9 +46,7 @@ import MBBase from '../../MBBase.vue';
 export default {
   extends: MBBase,
   name: 'Login',
-  components: {
-    
-  },
+  components: {},
   data () {
     return {
       hasErrors: false,
@@ -58,7 +56,8 @@ export default {
       }
     }
   },
-  methods: {    login: function(){
+  methods: {    
+    login: function(){
       var self = this;
       self.$validator.validateAll({
         email: self.userDetails.mail,

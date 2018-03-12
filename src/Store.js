@@ -34,8 +34,7 @@ export const store = new Vuex.Store({
   	}
   },
   mutations: {
-  	SetLocation: function(currentLocation){
-  		debugger;
+  	SetLocation: function(commit, currentLocation){
   		this.state.currentLocation = currentLocation;
   	}
   }
