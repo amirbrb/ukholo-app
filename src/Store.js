@@ -1,39 +1,67 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import $ from 'jquery'
+import LoginType from './enums/loginType'
 
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
+    initilized: false,
     userData: null,
     currentLocation: {},
     notifications: [],
+    userTools: []
   },
   actions: {
-  	getLoginData: function(commit, requestData) {
-  		var self = this;
-		  var url = '/login/relogin';
-  		var data = {
-    		mail: requestData.userName,
-        	password: requestData.password,
-        	gcmRegistrationId: window.localStorage.mb_registrationId,
-        	lat: requestData.currentLocation.lat,
-        	lng: requestData.currentLocation.lng
-      	};
+    getStartUpData: function(commit, location){
+      var self = this;
 
-      	$.post(url, data, function(response){
-        	if(response.isSuccess){
-      		  window.localStorage.mb_token = response.data.token;
-		        self.commit('setLocation', response.data.userData.currentLocation);
-      			self.state.notifications = response.data.notifications || [];
-        	}
-      	}).fail(function(e){
-        	
-      	});
-  	}
+      var url, data;
+      var loginTypeEnum = window.localStorage.mb_loginType;
+      var usernameCookie = window.localStorage.mb_usercookie;
+      var passwordCookie = window.localStorage.mb_passcookie;
+
+      if(loginTypeEnum == LoginType.mail && usernameCookie && passwordCookie){
+        url= "/login/relogin"
+        data = {
+          mail: usernameCookie,
+          password: passwordCookie,
+          gcmRegistrationId: window.localStorage.mb_registrationId,
+          lat: location.lat,
+          lng: location.lng
+        };
+      }
+      else{
+        url="/login/getStartupData";
+        data = {
+          lat: location.lat,
+          lng: location.lng
+        };
+      }
+
+      $.post(url, data, function(response){
+        if(response.isSuccess){
+          if(response.data.userData){
+            window.localStorage.mb_token = response.data.token;
+            self.commit('setUserData', response.data.userData);
+            self.state.notifications = response.data.notifications || [];
+          }
+
+          self.state.userTools = response.data.startupData.userTools;
+        }
+
+        self.state.initilized = true;
+      }).fail(function(err){
+        console.log(err);
+        self.state.initilized = true;
+      }); 
+    }
   },
   getters: {
+    isInitialized: state => {
+      return state.initilized;
+    }, 
     isLoggedIn: state => {
       return state.userData != null;
     },
@@ -43,7 +71,10 @@ export const store = new Vuex.Store({
   },
   mutations: {
   	setLocation: function(commit, currentLocation){
-  		this.state.currentLocation = currentLocation;
+  		this.state.currentLocation = {
+        lat: parseFloat(currentLocation.lat.toString()),
+        lng: parseFloat(currentLocation.lng.toString())
+      };
   	},
     setUserData: function(commit, userData){
       this.state.userData = userData;

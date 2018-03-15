@@ -1,7 +1,10 @@
 <template>
   <div id="app">
+    <div class="loading-cover" v-if="$parent.isLoading">
+      <div class="cover-content"><img src="static/img/gifs/thinker-main.gif"/></div>
+    </div>
     <transition name="fade">
-      <Login v-on:loggedIn="userAuthenticated" v-on:showRegistration="showRegistration" v-if="!isLoggedIn && isLoginForm"></Login>
+      <Login v-on:loggedIn="userAuthenticated" v-on:showRegistration="showRegistration" v-if="!isLoggedIn && isLoginForm && isInitialized"></Login>
     </transition>
     <transition name="fade">
       <Register v-on:registered="userAuthenticated" v-on:showLogin="showLogin" v-if="!isLoggedIn && isRegistrationForm"></Register>
@@ -34,7 +37,6 @@ import HeaderNavbar from './components/misc/HeaderNavbar.vue';
 import StateControl from './components/misc/StateControl.vue';
 import EventControl from './components/misc/EventControl.vue';
 import EventContextMenu from './components/misc/EventContextMenu.vue';
-import LoginType from './enums/loginType'
 
 export default {
   extends: MBBase,
@@ -51,7 +53,6 @@ export default {
   props: [],
   data () {
     return {
-      isLoading: false,
       isLoginForm: true,
       isRegistrationForm: false,
       isShowingHelp: false,
@@ -61,6 +62,9 @@ export default {
   computed:{
     getEventControlLocation(){
       return this.userData.preferences.sosControlLocation;
+    },
+    isInitialized(){
+      return this.$store.getters.isInitialized;
     },
     isLoggedIn(){
       return this.$store.getters.isLoggedIn;
@@ -75,21 +79,14 @@ export default {
       };
 
       var geoLoctionSuccess = function(position) {
-          var coords = position.coords;
-          var currentLocation = {
-            lat: coords.latitude,
-            lng: coords.longitude
-          };
-
-          self.$store.commit('setLocation', currentLocation);
-          var usernameCookie = window.localStorage.mb_usercookie;
-          var passwordCookie = window.localStorage.mb_passcookie;
-          if(usernameCookie && passwordCookie){
-            var loginTypeEnum = window.localStorage.mb_loginType;
-          if(loginTypeEnum == LoginType.mail){
-              self.$store.dispatch('getLoginData', {userName: usernameCookie, password: passwordCookie, currentLocation: currentLocation})
-          }
-        }
+        var coords = position.coords;
+        var currentLocation = {
+          lat: coords.latitude,
+          lng: coords.longitude
+        };
+        
+        self.$store.commit('setLocation', currentLocation);
+        self.$store.dispatch('getStartUpData', {currentLocation: currentLocation});
       };
       navigator.geolocation.getCurrentPosition(geoLoctionSuccess, console.log, geoLocationOptions);
     }
@@ -184,6 +181,25 @@ export default {
   position: absolute;;
   top: 80px;
   width: 100%;
+}
+
+.loading-cover{
+    width: 100%;
+    height: 100vh;
+    background: antiquewhite;
+    color: black;
+    z-index: 9999;
+    opacity: 0.6;
+    text-align: center;
+}
+
+.cover-content{
+  position: relative;
+  float: left;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 54px;
 }
 
 </style>

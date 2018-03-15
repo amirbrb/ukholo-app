@@ -92,9 +92,9 @@ export default {
         this.$refs.autocomplete,
         {types: ['geocode']}
       );
-      debugger;
+
       var circle = new google.maps.Circle({
-        center: self.userData.currentLocation
+        center: self.currentLocation
       });
       autocomplete.setBounds(circle.getBounds());
       setTimeout(this.locateHelpLocation, 1000);

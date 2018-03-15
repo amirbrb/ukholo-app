@@ -23,31 +23,7 @@ export default {
   props: ['userId', 'selectedTools'],
   data () {
     return {
-      userTools: [
-      {
-        title: 'handy',
-        class: 'wrench',
-        selected: false,
-        id: 1
-      }, 
-      {
-        title: 'cooking',
-        class: 'coffee',
-        selected: false,
-        id: 2
-      },
-      {
-        title: 'tech',
-        class: 'tv',
-        selected: false,
-        id: 3
-      },
-      {
-        title: 'pet',
-        class: 'paw',
-        selected: false,
-        id: 4
-      }]
+      userTools: this.$store.state.userTools
     }
   },
   created(){

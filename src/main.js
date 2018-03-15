@@ -92,9 +92,11 @@ function init(){
       beforeSend: function(xhr, options) {
         options.url = baseUrl + options.url;
         xhr.setRequestHeader("mb_token", localStorage.mb_token);
+        window.vm.isLoading = true;
       },
       complete: function(a, b, c){
         console.log(a.responseJSON)
+        window.vm.isLoading = false;
       },
       global: false,
       type: "POST"
@@ -105,6 +107,9 @@ function init(){
     template: '<App />',
     components: { App },
     store,
+    data: {
+      isLoading: false,
+    },
     router: router
   })
 }

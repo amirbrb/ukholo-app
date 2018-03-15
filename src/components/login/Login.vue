@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
           <div class="account-wall">
-            <img ref="userAvater" class="profile-img" :src="'../../static/img/icons/icon.png'" alt="">
+            <img ref="userAvater" class="profile-img" :src="'static/img/icons/icon.png'" alt="">
             <div class="form-signin">
               <div class="form-group has-feedback">
                 <input name="email" v-model="userDetails.mail" type="email" 
