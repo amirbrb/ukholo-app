@@ -52,7 +52,6 @@
     methods: {
       logout(){
         window.localStorage.removeItem('mb_usercookie');
-        window.localStorage.removeItem('mb_passwordcookie');
         window.localStorage.removeItem('mb_loginType');
         window.localStorage.removeItem('mb_registrationId');
         window.localStorage.removeItem('mb_token');

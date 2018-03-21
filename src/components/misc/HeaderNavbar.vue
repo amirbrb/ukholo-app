@@ -5,9 +5,9 @@
         <i class="fa fa-bell-o" :counter="$store.getters.notificationsCounter > 10 ? '10+' : $store.getters.notificationsCounter" aria-hidden="true"></i>
         <label>
           <router-link :to="'/'" class="mb-navbar-brand">Ukholo</router-link>
-          <p> someone to trust </p>
+          <p> ### </p>
         </label>
-        <img class="mb-navbar-logo" :src="'/static/img/icons/icon.png'"/>
+        <img class="mb-navbar-logo" :src="'static/img/icons/icon.png'"/>
         <a id="toggle" @click="toggleSettings" :class="{'on' : navbarIsOpen}"><span></span></a>
       </div>
     </div>

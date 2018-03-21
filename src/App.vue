@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <div class="loading-cover" v-if="$parent.isLoading">
-      <div class="cover-content"><img src="static/img/gifs/thinker-main.gif"/></div>
+    <div class="loader-cover" v-if="$parent.isLoading">
+      <img src="static/img/gifs/thinker-main.gif"/>
     </div>
     <transition name="fade">
       <Login v-on:loggedIn="userAuthenticated" v-on:showRegistration="showRegistration" v-if="!isLoggedIn && isLoginForm && isInitialized"></Login>
@@ -37,6 +37,8 @@ import HeaderNavbar from './components/misc/HeaderNavbar.vue';
 import StateControl from './components/misc/StateControl.vue';
 import EventControl from './components/misc/EventControl.vue';
 import EventContextMenu from './components/misc/EventContextMenu.vue';
+import io from 'socket.io-client';
+window.io = io;
 
 export default {
   extends: MBBase,
@@ -73,6 +75,7 @@ export default {
   created () {
     window.ViewType = ViewType;
     var self = this;
+
     if(navigator.geolocation){
       var geoLocationOptions = {
           enableHighAccuracy: true
@@ -87,6 +90,9 @@ export default {
         
         self.$store.commit('setLocation', currentLocation);
         self.$store.dispatch('getStartUpData', {currentLocation: currentLocation});
+
+        let socket = io(self.domain);
+        window.socket = socket;
       };
       navigator.geolocation.getCurrentPosition(geoLoctionSuccess, console.log, geoLocationOptions);
     }
@@ -183,23 +189,16 @@ export default {
   width: 100%;
 }
 
-.loading-cover{
-    width: 100%;
-    height: 100vh;
-    background: antiquewhite;
-    color: black;
-    z-index: 9999;
-    opacity: 0.6;
-    text-align: center;
+.loader-cover{
+  position: absolute;
+  left: 70px;
+  top: 12px;
+  z-index: 9999;
 }
 
-.cover-content{
-  position: relative;
-  float: left;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 54px;
+.loader-cover img{
+  height: 50px;
+  width: 50px;
 }
 
 </style>

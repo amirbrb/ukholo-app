@@ -1,8 +1,9 @@
+		border-radius: 12px;
+		border-radius: 12px;
 <template>
 	<div class="chat-box col-xs-12" :disabled="!isActive">
       	<div class="messages-wrapper col-xs-12" ref="messagesContainer">
-      		<div v-if="isLoading">Getting messages</div>
-	      	<div v-if="!isLoading" v-for="message in messages" :class="{'wrap-message': true, 'wrap-message-right' : message.senderId === userData.userId}">
+	      	<div v-for="message in messages" :class="{'wrap-message': true, 'wrap-message-right' : message.senderId === userData.userId}">
 		      	<div class="chat-message">
 			        <div class="message-sender">
 			        	<img :src="domain + '/images/avatar/' + message.senderId"/>
@@ -10,11 +11,9 @@
 			        <p>{{message.text}}</p>
 		      	</div>
 	      	</div>
-	      	<div class="chat-text">
-	      		<div class="input-group">
-			  		<input :disabled="!isActive" class="form-control send-message" v-model="newMessage" placeholder="enter message here" aria-describedby="send-addon">
-			  		<span class="input-group-addon" :disabled="!isActive" id="send-addon" @click="sendMessage"><i class="glyphicon glyphicon-send"></i></span>
-				</div>
+	      	<div class="chat-text col-xs-10 col-sm-5">
+	      		<input :disabled="!isActive" class="form-control send-message" v-model="newMessage" placeholder="enter message here" aria-describedby="send-addon">
+	      		<a class="btn btn-default" @click="sendMessage">send</a>
       		</div>
       	</div>
 	</div>
@@ -22,8 +21,8 @@
 
 <script>
 	import MBBase from '../../MBBase.vue'
-	import moment from 'moment';
 	import $ from 'jquery'
+
 	export default{
 		extends: MBBase,
 	  	components: {
@@ -34,7 +33,6 @@
 	      		messages: [],
 	      		timeoutId: null,
 	      		newMessage: '',
-	      		lastQuery: moment(new Date(-8640000000000000)).format(),
 	      		alive: true,
 	      		isLoading: true,
 	      		caseId: this.$route.params.id,
@@ -45,35 +43,38 @@
 
 	  	},
 	  	created(){
-	    	this.getChatMessages();
+	  		let self = this;
+	  		window.socket.emit('chat-box', self.caseId);
+	    	self.getChatMessages();
+
+	    	window.socket.on('chat-message', function(msgData){
+	      		self.messages.push(msgData);
+	        	self.scroll();
+		    });
 	  	},
 	  	beforeDestroy(){
 	    	var self = this;
 	    	self.alive = false;
 	  	},
 	  	methods: {
+	  		scroll(){
+	  			let self = this;
+  				var scroller = $(self.$refs.messagesContainer);
+    			setTimeout(function(){
+    				scroller.stop().animate({
+					  scrollTop: scroller[0].scrollHeight
+					}, 400)
+				}, 200);
+	  		},
 	    	getChatMessages(){
 	      		var self = this;
-	      		var url = '/events/' + self.caseId + '/messages/?q=' + self.lastQuery;
+	      		var url = '/events/' + self.caseId + '/messages/';
 	      		$.get(url, function(response){
 	      			if(response.isSuccess){
 	      				self.messages.push.apply(self.messages, response.data.messages);
-		        		if(response.data.lastTimestamp){
-		        			self.lastQuery = response.data.lastTimestamp;
-		        		}
 		        		if(response.data.messages.length > 0){
-		        			var scroller = $(self.$refs.messagesContainer);
-		        			setTimeout(function(){
-		        				scroller.stop().animate({
-								  scrollTop: scroller[0].scrollHeight
-								}, 400)
-	        				}, 200);
-		        		}
-
-	        			self.isLoading = false;
-		        		if(self.alive){
-		        			self.timeoutId = setTimeout(self.getChatMessages, 1000);
-		        		}
+	        				self.scroll();
+	        			}
 	      			}
 	      			else{
 	      				console.log('failed getting messages');
@@ -86,22 +87,14 @@
 	    	sendMessage(){
     			var self = this;
     			if(!self.isActive) return;
-
-	      		var url = '/events/' + self.caseId + '/message/';
-	      		var data = {
-	      			caseId: self.caseId,
-	      			text: self.newMessage,
-	      			userId: self.userData.userId
-	      		};
-      			$.post(url, data, function(response){
-      				if(response.isSuccess){
-      					self.newMessage = '';
-      				}
-      				else{
-      					console.log('failed posting message');
-      					//TBD: proper error
-      				}
-      			});
+				if(self.newMessage == '') return;
+				var message = self.newMessage;
+				self.newMessage = '';
+				window.socket.emit('chat-message', {
+					caseId: self.caseId,
+	      			message: message,
+	      			sender: self.userData.userId
+				});
     		}
 	}
 }
@@ -114,10 +107,17 @@
 	.chat-text{
 		margin-top: 5px;
 		position: fixed;
+		margin-right: 10px;
+		margin-left: 10px;
 		right: 10px;
 		bottom: 10px;
-		width: 40%;
 	}
+
+	.chat-text a{
+		position: fixed;
+		bottom: 10px;
+	}
+
 	.messages-wrapper{
 		height: 70vh;
 		overflow: auto;
@@ -162,6 +162,8 @@
 	}
 
 	.send-message{
-		border: 1px gray solid;
+		border-bottom: 1px gray solid;
+		width:70%; 
+		float: left
 	}
 </style>
