@@ -14,6 +14,10 @@ var webpackConfig = require('./webpack.dev.conf')
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
+var uri = process.env.C9_HOSTNAME ? 
+  'https://' + process.env.C9_HOSTNAME : 
+  'http://127.0.0.1:' + port;
+  
 // automatically open browser, if not set will be false
 var autoOpenBrowser = !!config.dev.autoOpenBrowser
 // Define HTTP proxies to your custom API backend
@@ -62,8 +66,6 @@ app.use(hotMiddleware)
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
 
-var uri = 'http://127.0.0.1:' + port
-
 var _resolve
 var readyPromise = new Promise(resolve => {
   _resolve = resolve
@@ -73,6 +75,7 @@ console.log('> Starting dev server...')
 devMiddleware.waitUntilValid(() => {
   console.log('> Listening at ' + uri + '\n')
   // when env is testing, don't need open it
+  debugger;
   if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {
     opn(uri)
   }

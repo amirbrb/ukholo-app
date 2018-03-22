@@ -6,7 +6,7 @@ import App from './App'
 import VueRouter from 'vue-router'
 import VeeValidate from 'vee-validate';
 import HelpCaseView from './components/help/HelpCaseView'
-import ChatBox from './components/help/ChatBox'
+import ChatBox from './components/help/Chatbox'
 import MainView from './components/misc/MainView'
 import Settings from './components/settings/Settings'
 import Profile from './components/settings/Profile'

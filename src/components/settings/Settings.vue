@@ -38,7 +38,7 @@
   import UserEvents from './UserEvents'
   import UserTools from './UserTools'
   import MBBase from '../../MBBase';
-  import SettingsType from '../../enums/SettingsType.js'
+  import SettingsType from '../../enums/settingsType.js'
   window.SettingsType = SettingsType
   export default {
     extends: MBBase,
