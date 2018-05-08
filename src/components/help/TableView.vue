@@ -73,8 +73,8 @@ export default {
   .help-issue {
     position: relative;
     width: 100%;
-    border: 4px groove;
-    margin-top: 2px;
+    border: 1px groove;
+    margin-top: 1px;
     padding: 10px;
   }
 

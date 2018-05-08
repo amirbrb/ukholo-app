@@ -2,10 +2,10 @@
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
       <div class="mb-navbar-header">
-        <i class="fa fa-bell-o" :counter="$store.getters.notificationsCounter > 10 ? '10+' : $store.getters.notificationsCounter" aria-hidden="true"></i>
+        <i :class="{'fa':true, 'fa-bell-o':true, 'active': $store.getters.notificationsCounter > 0}" :counter="$store.getters.notificationsCounter > 10 ? '10+' : $store.getters.notificationsCounter" aria-hidden="true"></i>
         <label>
           <router-link :to="'/'" class="mb-navbar-brand">Ukholo</router-link>
-          <p> ### </p>
+          <p> social care </p>
         </label>
         <img class="mb-navbar-logo" :src="'static/img/icons/icon.png'"/>
         <a id="toggle" @click="toggleSettings" :class="{'on' : navbarIsOpen}"><span></span></a>
@@ -54,9 +54,10 @@
   }
 
   .mb-navbar-logo{
-    height: 40px;    
+    height: 30px;    
     position: absolute;
-    top: 20px;
+    top: 25px;
+    margin-left:10px;
   }
 
   .mb-navbar-brand{
@@ -126,7 +127,8 @@
     left: 20px;
     top: 22px;
   }
-  .fa-bell-o:after {
+  
+  .fa-bell-o.active:after {
     position: absolute;
     content:attr(counter);
     top: 18px;

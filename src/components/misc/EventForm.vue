@@ -1,38 +1,32 @@
 <template>
   <div class="sos-request col-xs-12">
-    <div class="form-group has-feedback" style="margin-top: 20px;">
+    <div class="form-group has-feedback event-title" style="margin-top: 20px;">
       <input name="title" v-model="help.title"
-        v-validate="'required'" :class="{'form-control': true, 'error-input': errors.has('title') }" 
+        class="form-control" 
         placeholder="tell others what is needed">
-      <span v-show="errors.has('email')" class="glyphicon glyphicon-exclamation-sign form-control-feedback"></span>
     </div>
-    <div class="seperator">
-      <span>OR (choose)</span>
+    <div class="form-group has-feedback event-tools">
+      <div v-for="userTool in $store.state.userTools" @click="eventToolSelected"
+        :class="{'user-tool': true,  'col-xs-5': true}" :data-id="userTool.id">
+        <div class="tool-title">{{userTool.title}}</div>
+        <div :class="'tool-image fa fa-' + userTool.class"></div>
+      </div>
     </div>
-    <div class="form-group has-feedback">
-      <select v-model="help.selectedType" v-validate="'required'" class="form-control shown">
-        <option>i just need some help</option>
-        <option>in house assistance</option>
-        <option>car fixing</option>
-        <option>cooking and baking</option>
-      </select>
-    </div>
-    <div class="form-group has-feedback">
+    <div class="form-group has-feedback event-description">
       <textarea name="description"  v-model="help.description"
-        class="form-control" placeholder="describe others what is needed - try to be specific" rows="4"></textarea>
+        class="form-control" placeholder="describe others what is needed - try to be specific" rows="2"></textarea>
     </div>
-    <div class="form-group has-feedback">
+    <div class="form-group has-feedback event-location">
       <input ref="autocomplete" class="form-control" placeholder="where sre you?" type="text">
       <span class="glyphicon glyphicon-map-marker col-xs-offset-1 form-control-feedback"></span>
     </div>
-    <div class="form-group has-feedback col-xs-8 col-md-3">
+    <div class="form-group has-feedback col-xs-8 col-md-3 event-images">
       <label class="file-container">
         <a class="btn btn-default file-loader">
           <span class="fa fa-upload"></span><p>Choose images</p>
         </a>
         <input ref="images" type="file" accept="image/*" @change="imagesSelected" multiple/>
       </label>
-      <Information :data="'provide users with images of the issue so they can help'"></Information>
     </div>
     <div class="form-group col-xs-12">
       <div ref="imageContainer" id="imageContainer" class="images-container"></div>
@@ -66,7 +60,8 @@ export default {
         selectedType: 'i just need some help',
         description: '',
         images: [],
-        location: {}
+        location: {},
+        selectedTools: []
       }
     }
   },
@@ -85,6 +80,21 @@ export default {
           container.removeChild(container.firstChild);
       }
       self.$router.back();
+    },
+    eventToolSelected(){
+      debugger;
+      var self = this;
+      var el = $(window.event.currentTarget);
+      var toolId = parseInt(el.attr('data-id'));
+      el.toggleClass('selected');
+      
+      if(el.hasClass('selected')){
+        self.help.selectedTools.push(toolId);
+      }
+      else{
+        var indexOf = self.help.selectedTools.indexOf(toolId);
+        self.help.selectedTools.splice(indexOf, 1);
+      }
     },
     initAutocomplete(){
       var self = this;
@@ -121,42 +131,37 @@ export default {
       });
     },
     callHelp(){
-      //TBD - add thinker image
+      debugger;
       var self = this;
-      self.$validator.validateAll({
-        title: self.help.title || self.help.selectedType
-      }).then((result) => {
-        if(result){
-          const url = '/events/help';
-          const formData = new FormData();
-          formData.append('userId', self.userData.userId);  
-          formData.append('title', self.help.title || self.help.selectedType);  
-          formData.append('description', self.help.description);  
-          formData.append('lat', self.help.location.lat);
-          formData.append('lng', self.help.location.lng);
-          for(var fileIndex = 0; fileIndex < self.help.images.length; fileIndex++){
-            formData.append(self.help.images[fileIndex].image, self.help.images[fileIndex].file);  
-          }
+      const url = '/events/help';
+      const formData = new FormData();
+      formData.append('userId', self.userData.userId);  
+      formData.append('title', self.help.title);  
+      formData.append('description', self.help.description);  
+      formData.append('lat', self.help.location.lat);
+      formData.append('lng', self.help.location.lng);
+      formData.append('selectedTools',  JSON.stringify(self.help.selectedTools));
+      for(var fileIndex = 0; fileIndex < self.help.images.length; fileIndex++){
+        formData.append(self.help.images[fileIndex].image, self.help.images[fileIndex].file);  
+      }
 
-          $.ajax({
-              url: url, 
-              data: formData, 
-              processData: false,
-              contentType: false
-            }
-          ).done(function(response){
-            if(response.isSuccess){
-              self.hide();  
-            }
-            else{
-              console.log('failed uploading cases') 
-              //TBD: proper error to user 
-            }           
-          }).fail(function(e){
-            //TBD: log error
-          })
+      $.ajax({
+          url: url, 
+          data: formData, 
+          processData: false,
+          contentType: false
         }
-      });
+      ).done(function(response){
+        if(response.isSuccess){
+          self.hide();  
+        }
+        else{
+          console.log('failed uploading cases') 
+          //TBD: proper error to user 
+        }           
+      }).fail(function(e){
+        //TBD: log error
+      })
     },
     imagesSelected(){
       var self = this;
@@ -191,9 +196,39 @@ export default {
 </script>
 
 <style>
+  .event-images{
+    text-align: center;
+    width: 100%;
+  }
+
   .sos-request{
     top: 25px;
     margin: 5px 5px 5px 5px;
+  }
+
+  .user-tool{
+    text-align: center;
+    height: 60px;
+    border: 1px solid black;
+    line-height: 15px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+
+  .user-tool.selected{
+    transform: rotate(5deg);
+    border-width: 2px;
+  }
+
+  .tool-title{
+    font-size: 16px;
+    margin-top: 10px;    
+  }
+
+  .tool-image{
+    margin-top: 10px;
+    font-size: 14px;
   }
 
   .help-title{

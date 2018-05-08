@@ -2,8 +2,8 @@
   <div class="event-context-menu" v-bind:style="{ top: location.top - 110 + 'px', left: location.left - 35 + 'px'  }">
     <span class="close" @click="hideContextMenu"><i class="fa-times fa"></i></span>
     <ul class="context-menu">
-      <li><router-link :to="'/help/sos'">Now</router-link></li>
-      <li><router-link :to="'/help/event'">Help</router-link></li>
+      <li @click="hideContextMenu"><router-link :to="'/help/sos'"><i class="fa fa-users"></i>in need...</router-link></li>
+      <li @click="hideContextMenu"><router-link :to="'/help/event'"><i class="fa fa-shield"></i>help me...</router-link></li>
     </ul>
   </div>
 </template>
@@ -34,7 +34,6 @@ export default {
     width: 150px;
     z-index: 9999;
     box-shadow: 5px 5px 5px grey;
-    opacity: 0.82;
     position: absolute;
     background: white;
   }
@@ -50,16 +49,19 @@ export default {
 
   .context-menu{
     list-style: none;
-    text-align: center;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   .context-menu li{
-    border-radius: 20px;
-    border: 1px solid black;
+    border-bottom: 1px solid black;
     margin-top: 2px; 
     font-size: 18px;
+    padding:5px;
     cursor: pointer;
+  }
+  
+  .context-menu li i{
+    margin-right:15px;
   }
 </style>

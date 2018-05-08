@@ -13,7 +13,7 @@
       <HeaderNavbar :notifications="notifications"></HeaderNavbar>
       <div class="view-router">
         <StateControl></StateControl>
-        <EventControl v-if="isLoggedIn" :location="userData.preferences.sosControlLocation" 
+        <EventControl v-if="isLoggedIn" v-show="!isShowingHelp" :location="userData.preferences.sosControlLocation" 
           v-on:eventControlLocationChanged="eventControlLocationChanged"
           v-on:contextMenu="eventControlContextMenu">
         </EventControl>

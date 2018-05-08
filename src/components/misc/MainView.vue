@@ -48,9 +48,7 @@ export default {
   },
   data () {
     return {
-      cases: [],
-      timeoutId: null,
-      queryDelay: 5000
+      cases: []
     }
   },
   props: [],
@@ -58,10 +56,6 @@ export default {
     var self = this;
     window.ViewType = ViewType
     self.getData();
-  },
-  destroyed(){
-    var self = this;
-    clearTimeout(self.timeoutId);
   },
   methods: {
     getData(){
@@ -92,8 +86,6 @@ export default {
           console.log('failed getting cases');
           //TBD: proper error message  
         }
-        clearTimeout(self.timeoutId);
-        self.timeoutId = setTimeout(self.getData, self.queryDelay);
       }).fail(function(response){
         console.log(response);
         //TBD: proper error message

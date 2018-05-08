@@ -2,6 +2,16 @@
   <div class="table-view">
     <div v-for="eventData in events" class="event">
       <router-link :to="{ path: '/events/edit/' + eventData.id}">
+        <table>
+          <tr>
+            <td rowspan="2" class="event-actions">
+              
+            </td>
+            <td>
+              
+            </td>
+          </tr>
+        </table>
         <div class="event-details">
           <label>{{stringifyDate(eventData.created)}}</label>
         </div>
@@ -77,7 +87,7 @@ export default {
   .event {
     position: relative;
     width: 100%;
-    border: 4px groove;
+    border: 1px groove;
     margin-top: 2px;
     padding: 10px;
   }
