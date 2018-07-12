@@ -1,49 +1,21 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import Vuex from 'vuex'
-import App from './App'
-import VueRouter from 'vue-router'
-import VeeValidate from 'vee-validate';
-import HelpCaseView from './components/help/HelpCaseView'
-import ChatBox from './components/help/Chatbox'
-import MainView from './components/misc/MainView'
-import Settings from './components/settings/Settings'
-import Profile from './components/settings/Profile'
-import ImageView from './components/misc/ImageView';
-import EventForm from './components/misc/EventForm';
-import $ from 'jquery'
-import moment from 'moment';
-import ApplicationConfiguration from './config/applicationConfiguration'
-import { store } from './Store.js';
+import Vuetify from 'vuetify'
+import App from './components/App'
+import AxiosPlugin from './services//axios.js';
+import MomentPlugin from './services//moment.js';
+import VueSimplemde from 'vue-simplemde'
+import 'simplemde/dist/simplemde.min.css'
 
-Vue.use(Vuex)
-Vue.use(VueRouter)
-Vue.use(VeeValidate);
+import {store} from './store'
+import {router} from './router'
+
+Vue.use(Vuetify)
+Vue.use(VueSimplemde)
+Vue.use(AxiosPlugin);
+Vue.use(MomentPlugin);
 Vue.config.productionTip = false;
-
-window.moment = moment;
-
-const routes = [
-  { path: '/', component: MainView },
-  { path: '/help/event', component: EventForm },
-	{ path: '/events/:id', component: HelpCaseView },
-  { path: '/events/edit/:id', component: HelpCaseView, props: { isSelfEdit: true } },
-  { path: '/events/chat/:id', component: ChatBox },
-  { path: '/image/:id', component: ImageView },
-  { path: '/users/:id/details/', component: Profile, props: { isReadOnly: true } },
-	{ path: '/settings', component: Settings }
-];
-
-const router = new VueRouter({ routes });
-
-window.onerror = function(message, file, line, column, error) {
-  
-}
-
-window.addEventListener('native.keyboardshow', function(e){
-  
-});
 
 document.addEventListener('deviceready', function(){
   /* eslint-disable no-undef */
@@ -87,29 +59,12 @@ window.setTimeout(function() {
 }, 100);
 
 function init(){  
-  const baseUrl = ApplicationConfiguration.baseDomain;
-  $.ajaxSetup({
-      beforeSend: function(xhr, options) {
-        options.url = baseUrl + options.url;
-        xhr.setRequestHeader("mb_token", localStorage.mb_token);
-        window.vm.isLoading = true;
-      },
-      complete: function(a, b, c){
-        console.log(a.responseJSON)
-        window.vm.isLoading = false;
-      },
-      global: false,
-      type: "POST"
-  });
-
-  window.vm = new Vue({
-    el: '#app',
-    template: '<App />',
-    components: { App },
-    store,
-    data: {
-      isLoading: false,
-    },
-    router: router
+    window.vm = new Vue({
+      el: '#app',
+      template: '<App />',
+      components: { App },
+      data: {},
+      store,
+      router: router
   })
 }

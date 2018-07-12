@@ -1,177 +1,20 @@
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+.t-page-title{
+	margin: 25px;
+	text-decoration: underline;
 }
 
-body{
-  font-family: 'Source Serif Pro', serif;
+.t-page-content{
+	width: 100%;
+	padding: 10px;
 }
 
-.form-control{
-    border-top: 0px;
-    border-left: 0px;
-    border-right: 0px;
+.t-input{
+    height: 30px;
+    border-radius: 5px;
+    border-top: 0;
+    border-bottom: 1px solid black;
+    line-height: 30px;
+    padding: 10px;
     cursor: pointer;
-    border-color: white;
-    -webkit-box-shadow: inset 0 0 rgba(0,0,0,.075);
-    box-shadow: inset 0 0 rgba(0,0,0,.075);
-    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 
-.file-container {
-  overflow: hidden;
-  position: relative;
-  width: 80%;
-  cursor: pointer;
-}
-
-.file-container [type=file] {
-  cursor: inherit;
-  display: block;
-  font-size: 999px;
-  filter: alpha(opacity=0);
-  min-height: 100%;
-  min-width: 100%;
-  opacity: 0;
-  position: absolute;
-  right: 0;
-  text-align: right;
-  top: 0;
-}
-
-.error-input{
-	border-color: red;
-}
-
-.empty-data{
-  font-size: 24px;
-
-}
-
-.checkbox {
-  padding-left: 20px; }
-.checkbox label {
-    display: inline-block;
-    position: relative;
-    padding-left: 5px; }
-.checkbox label::before {
-      content: "";
-      display: inline-block;
-      position: absolute;
-      width: 17px;
-      height: 17px;
-      left: 0;
-      margin-left: -20px;
-      border: 1px solid #cccccc;
-      border-radius: 3px;
-      background-color: #fff;
-      -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
-      -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
-      transition: border 0.15s ease-in-out, color 0.15s ease-in-out; }
-.checkbox label::after {
-      display: inline-block;
-      position: absolute;
-      width: 16px;
-      height: 16px;
-      left: 0;
-      top: 0;
-      margin-left: -20px;
-      padding-left: 3px;
-      padding-top: 1px;
-      font-size: 11px;
-      color: #555555; }
-.checkbox input[type="checkbox"] {
-    opacity: 0; }
-.checkbox input[type="checkbox"]:focus + label::before {
-      outline: thin dotted;
-      outline: 5px auto -webkit-focus-ring-color;
-      outline-offset: -2px; }
-.checkbox input[type="checkbox"]:checked + label::after {
-      font-family: 'FontAwesome';
-      content: "\f00c"; }
-.checkbox input[type="checkbox"]:disabled + label {
-      opacity: 0.65; }
-.checkbox input[type="checkbox"]:disabled + label::before {
-        background-color: #eeeeee;
-        cursor: not-allowed; }
-.checkbox.checkbox-circle label::before {
-    border-radius: 50%; }
-.checkbox.checkbox-inline {
-    margin-top: 0; }
-.checkbox-success input[type="checkbox"]:checked + label::before {
-  background-color: #5cb85c;
-  border-color: #5cb85c; }
-.checkbox-success input[type="checkbox"]:checked + label::after {
-  color: #fff; }
-
-
-/********************************************
-                    Forms
-********************************************/
-
-.seperator{
-  width: 100%; 
-  height: 10px; 
-  border-bottom: 1px solid black; 
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.seperator span{
-  font-size: 20px;
-  padding: 0px 10px;
-  background-color: white;
-}
-
-.tab-content{
-  position:relative;
-  margin: 5px 5px 5px 5px;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.tab-pane{
-  width: 99%;
-  height: 100%;
-}
-
-.view-container{
-  height: 100%;
-}
-
-.fade {
- -webkit-transition: opacity 1.5s linear;
-    -moz-transition: opacity 1.5s linear;
-     -ms-transition: opacity 1.5s linear;
-      -o-transition: opacity 1.5s linear;
-         transition: opacity 1.5s linear;
- }
-.tab-content>.tab-pane:not(.active) {
-    opacity: 0;
-}
-
-.nav li{
-    font-size: 20px;
-    width: 80px;
-    text-align: center;
-  }
-
-a, a:hover, a:visited {
-  color: black;
-  text-decoration: none;
-}
-
-.ok-button{
-  cursor: pointer;
-  border: 1px solid black;
-  height: 25px;
-  border-radius: 25px;
-  padding: 5px;
-  text-decoration: none;
-}
-
-.ok-button.disabled{
-  cursor: not-allowed;
-}
